@@ -11,44 +11,81 @@
 body {
     font-family: 'Montserrat', sans-serif;
     font-weight: 200;
-    color: var(--tg-theme-text-color, #333);
-    background: var(--tg-theme-bg-color, #f7f7f7);
+    color: var(--tg-theme-text-color, #333); /* Цвет текста */
+    background: var(--tg-theme-bg-color, #f7f7f7); /* Цвет фона */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Занять полную высоту экрана */
 }
 
 #main {
-    width: 100%;
-    padding: 20px;
+    background: white; /* Белый фон для блока */
+    border-radius: 15px; /* Скругленные углы */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Тень для глубины */
+    padding: 40px;
     text-align: center;
+    max-width: 400px; /* Максимальная ширина блока */
+    width: 90%; /* Ширина 90% от контейнера */
 }
 
 h1 {
-    margin-top: 50px;
-    margin-bottom: 10px;
+    margin-top: 0;
+    margin-bottom: 20px;
+    font-size: 28px; /* Увеличенный размер шрифта */
+    color: var(--tg-theme-header-color, #007aff); /* Цвет заголовка */
 }
 
 img {
-    width: 70px;
-    margin: 30px auto;
+    width: 100px; /* Увеличенный размер изображения */
+    margin: 20px 0; /* Отступы сверху и снизу */
+    border-radius: 10px; /* Скругленные углы для изображения */
+    transition: transform 0.3s; /* Плавный эффект увеличения при наведении */
+}
+
+img:hover {
+    transform: scale(1.1); /* Увеличение изображения при наведении */
 }
 
 p {
-    width: 350px;
-    margin: 0 auto;
+    width: 100%; /* Ширина 100% */
+    margin: 10px 0; /* Отступы сверху и снизу */
+    font-size: 16px; /* Размер шрифта */
+    color: var(--tg-theme-text-color, #666); /* Цвет текста */
 }
 
 button {
-    border: 0;
-    border-radius: 5px;
-    margin-top: 50px;
+    border: none; /* Без границ */
+    border-radius: 5px; /* Скругленные углы */
+    margin-top: 20px; /* Отступ сверху */
     height: 60px;
-    width: 200px;
+    width: 100%; /* Ширина кнопки 100% */
     font-size: 20px;
     cursor: pointer;
-    transition: all 500ms ease;
-    color: var(--tg-theme-button-color, #fff);
-    background: var(--tg-theme-button-text-color, #007aff);
+    transition: background 0.3s, transform 0.2s; /* Плавный эффект при наведении */
+    color: var(--tg-theme-button-color, #fff); /* Цвет текста кнопки */
+    background: var(--tg-theme-button-text-color, #007aff); /* Цвет фона кнопки */
+}
+
+input {
+    width: 90%;
+    outline: none;
+    margin: 10px 5%;
+    padding: 15px 10px;
+    font-size: 14px;
+    border: 2px solid silver;
+    border-radius: 5px;
+    }
+input:focus {
+        border-color: #db5d5d;
+    }
+
+#form {
+    display: none;
+    text-align: center;
 }
 
 button:hover {
-    background: var(--tg-theme-secondary-bg-color, #005bb5);
+    background: var(--tg-theme-secondary-bg-color, #005bb5); /* Более темный цвет при наведении */
+    transform: translateY(-2px); /* Плавный подъем кнопки при наведении */
 }
