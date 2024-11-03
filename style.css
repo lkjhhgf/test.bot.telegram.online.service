@@ -1,5 +1,3 @@
-/* style.css */
-
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@200;500&display=swap');
 
 * {
@@ -39,8 +37,8 @@ p {
 button {
     border: 0;
     border-radius: 5px;
-    margin-top: 50px;
-    height: 60px;
+    margin-top: 20px;
+    height: 50px;
     width: 200px;
     font-size: 20px;
     cursor: pointer;
@@ -52,12 +50,29 @@ button {
 #form {
     display: none;
     text-align: center;
+    padding: 20px;
 }
 
+/* Стили для полей ввода */
+input[type="text"] {
+    width: calc(100% - 40px);
+    max-width: 300px;
+    margin: 10px auto;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+/* Стили для кнопки отправки формы */
+#order {
+    width: calc(100% - 40px);
+    max-width: 300px;
+    font-size: 18px;
+    height: 50px;
+    margin-top: 20px;
+}
 
 button:hover {
     background: var(--tg-theme-secondary-bg-color, #005bb5);
 }
-
-
-
