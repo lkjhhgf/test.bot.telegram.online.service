@@ -18,6 +18,7 @@
         <input type="text" placeholder="Name" id="user_name">
         <input type="text" placeholder="Email" id="user_email">
         <input type="text" placeholder="Phone" id="user_phone">
+        <div id="error"></div>
         <button id="order" type="submit">Place an Order</button>
     </form>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
@@ -28,6 +29,9 @@
         let buyButton = document.getElementById("buy");
         // Получаем кнопку "Place an Order"
         let orderButton = document.getElementById("order");
+        tg.expand();
+
+
 
         // Обработчик для кнопки "Buy"
         buyButton.addEventListener("click", () => {
@@ -38,7 +42,32 @@
 
         // Обработчик для кнопки "Place an Order"
         orderButton.addEventListener("click", (event) => {
+            document.getElementById("error").innerText = '';
             event.preventDefault(); // Предотвращаем отправку формы
+            let name = document.getElementById("user_name").value;
+            let email = document.getElementById("user_email").value;
+            let phone = document.getElementById("user_phone").value;
+
+            if(name.length < 5) {
+                document.getElementById("error").innerText = 'Mistake in Name';
+                return;
+            }
+            if(email.length < 5) {
+                document.getElementById("error").innerText = 'Mistake in Email';
+                return;
+            }
+            if(phone.length < 5) {
+                document.getElementById("error").innerText = 'Error in Phone Number';
+                return;
+            }
+
+            let data = {
+                name: name,
+                email: email,
+                phone: phone
+            }
+
+            tg.sendData(JSON.stringify(data));
             tg.close(); // Закрываем веб-приложение Telegram
         });
     </script>
