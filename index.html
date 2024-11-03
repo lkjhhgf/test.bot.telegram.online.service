@@ -3,43 +3,79 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Online Shop</title>
+    <title>Shop</title>
+    <!-- Подключаем файл стилей -->
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div id="main">
         <h1>Online Shop</h1>
-        <img src="https://cdn-icons-png.flaticon.com/512/3595/3595455.png" alt="Shop Icon">
-        <p>Добро пожаловать в ваш магазин!</p>
-        <button id="buy">Купить</button>
+        <img src="https://cdn-icons-png.flaticon.com/512/3595/3595455.png">
+        <p>Welcome to Your One-Stop Food Shop!</p>
+        <button id="buy">Buy</button>
     </div>
-    <form id="form" style="display: none;">
-        <input type="text" placeholder="Имя" id="user_name" required>
-        <input type="email" placeholder="Email" id="user_email" required>
-        <input type="text" placeholder="Телефон" id="user_phone" required>
-        <div id="error"></div>
-        <button id="order" type="submit">Оформить заказ</button>
+    <form id ="form" style="display: none;">
+        <input type="text" placeholder="Name" id="user_name">
+        <input type="text" placeholder="Email" id="user_email">
+        <input type="text" placeholder="Phone" id="user_phone">
+        <div id="error" style="color: red;"></div> <!-- Элемент для ошибок -->
+        <button id="order" type="submit">Place an Order</button>
     </form>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script>
         let tg = window.Telegram.WebApp;
+
+        // Получаем кнопку "Buy"
+        let buyButton = document.getElementById("buy");
+        // Получаем кнопку "Place an Order"
+        let orderButton = document.getElementById("order");
         tg.expand();
 
-        document.getElementById("buy").addEventListener("click", () => {
+        // Обработчик для кнопки "Buy"
+        buyButton.addEventListener("click", () => {
             document.getElementById("main").style.display = "none";
             document.getElementById("form").style.display = "block";
             document.getElementById("user_name").value = tg.initDataUnsafe.user.first_name + " " + tg.initDataUnsafe.user.last_name;
         });
 
-        document.getElementById("order").addEventListener("click", (event) => {
+        // Обработчик для кнопки "Place an Order"
+        orderButton.addEventListener("click", (event) => {
+            document.getElementById("error").innerText = '';
             event.preventDefault(); // Предотвращаем отправку формы
             let name = document.getElementById("user_name").value;
             let email = document.getElementById("user_email").value;
             let phone = document.getElementById("user_phone").value;
 
-            let data = { name: name, email: email, phone: phone };
+            // Проверка имени
+            if (name.length < 2) {
+                document.getElementById("error").innerText = 'Имя должно содержать минимум 2 символа.';
+                return;
+            }
+            if (!/^[a-zA-Zа-яА-ЯёЁ\s]+$/.test(name)) {
+                document.getElementById("error").innerText = 'Имя может содержать только буквы.';
+                return;
+            }
+
+            // Проверка электронной почты
+            if (email.length < 5 || !/\S+@\S+\.\S+/.test(email)) {
+                document.getElementById("error").innerText = 'Пожалуйста, введите корректный email.';
+                return;
+            }
+
+            // Проверка номера телефона
+            if (phone.length < 5 || !/^\+?[0-9\s]+$/.test(phone)) {
+                document.getElementById("error").innerText = 'Пожалуйста, введите корректный номер телефона.';
+                return;
+            }
+
+            let data = {
+                name: name,
+                email: email,
+                phone: phone
+            }
+
             tg.sendData(JSON.stringify(data));
-            tg.close(); // Закрываем веб-приложение
+            tg.close(); // Закрываем веб-приложение Telegram
         });
     </script>
 </body>
