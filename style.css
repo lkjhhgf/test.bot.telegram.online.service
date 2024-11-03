@@ -47,6 +47,10 @@ button {
     background: var(--tg-theme-button-text-color, #007aff);
 }
 
+button:hover {
+    background: var(--tg-theme-secondary-bg-color, #005bb5);
+}
+
 #form {
     display: none;
     text-align: center;
@@ -63,5 +67,45 @@ input[type="tel"] {
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 5px;
+    font-size: 16px;
+}
 
+/* Стили для кнопки отправки формы */
+#order {
+    width: calc(100% - 40px);
+    max-width: 300px;
+    font-size: 18px;
+    height: 50px;
+    margin-top: 20px;
+}
 
+/* Стили для таблицы заказов */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+}
+
+th {
+    background-color: #f2f2f2;
+}
+
+tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+tr:hover {
+    background-color: #e0e0e0;
+}
+
+/* Стили для ошибки */
+#error {
+    color: red;
+    margin-top: 10px;
+}

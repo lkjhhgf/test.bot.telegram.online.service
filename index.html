@@ -17,7 +17,7 @@
         <input type="text" placeholder="Имя" id="user_name" required>
         <input type="email" placeholder="Email" id="user_email" required>
         <input type="tel" placeholder="Телефон" id="user_phone" required>
-        <div id="error"></div>
+        <div id="error" style="color: red;"></div>
         <button id="order" type="submit">Сделать заказ</button>
     </form>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
@@ -35,35 +35,40 @@
             document.getElementById("user_name").value = tg.initDataUnsafe.user.first_name + " " + tg.initDataUnsafe.user.last_name;
         });
 
+        // Валидация данных
+        function validateForm() {
+            const name = document.getElementById("user_name").value;
+            const email = document.getElementById("user_email").value;
+            const phone = document.getElementById("user_phone").value;
+
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            const phonePattern = /^\+?[0-9\s]*$/;
+
+            if (name.length < 3) {
+                document.getElementById("error").innerText = 'Ошибка: Имя слишком короткое.';
+                return false;
+            }
+            if (!emailPattern.test(email)) {
+                document.getElementById("error").innerText = 'Ошибка: Неверный Email.';
+                return false;
+            }
+            if (!phonePattern.test(phone) || phone.length < 5) {
+                document.getElementById("error").innerText = 'Ошибка: Неверный номер телефона.';
+                return false;
+            }
+
+            return { name, email, phone };
+        }
+
         // Обработчик для кнопки "Place an Order"
         document.getElementById("order").addEventListener("click", (event) => {
             document.getElementById("error").innerText = '';
             event.preventDefault(); // Предотвращаем отправку формы
-            let name = document.getElementById("user_name").value;
-            let email = document.getElementById("user_email").value;
-            let phone = document.getElementById("user_phone").value;
 
-            // Валидация данных
-            if(name.length < 3) {
-                document.getElementById("error").innerText = 'Ошибка: Имя слишком короткое.';
-                return;
-            }
-            if(email.length < 5 || !email.includes('@')) {
-                document.getElementById("error").innerText = 'Ошибка: Неверный Email.';
-                return;
-            }
-            if(phone.length < 5) {
-                document.getElementById("error").innerText = 'Ошибка: Неверный номер телефона.';
-                return;
-            }
+            const validatedData = validateForm();
+            if (!validatedData) return;
 
-            let data = {
-                name: name,
-                email: email,
-                phone: phone
-            }
-
-            tg.sendData(JSON.stringify(data));
+            tg.sendData(JSON.stringify(validatedData));
             tg.close(); // Закрываем веб-приложение Telegram
         });
     </script>
