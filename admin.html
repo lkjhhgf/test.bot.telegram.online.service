@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Online Shop</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="main">
+        <h1>Admin - Online Shop</h1>
+        <img src="https://cdn-icons-png.flaticon.com/512/3595/3595455.png" alt="Shop Icon">
+        <p>Добро пожаловать в панель администратора!</p>
+    </div>
+    <div id="orders" style="display: none;">
+        <h2>Список заказов</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Имя</th>
+                    <th>Email</th>
+                    <th>Телефон</th>
+                    <th>Статус</th>
+                    <th>Дата</th>
+                </tr>
+            </thead>
+            <tbody id="ordersList"></tbody>
+        </table>
+    </div>
+    <button id="viewOrders">Посмотреть заказы</button>
+    <script>
+        // Получение кнопки "View Orders"
+        let viewOrdersButton = document.getElementById("viewOrders");
+        let ordersDiv = document.getElementById("orders");
+
+        // Обработчик для кнопки "View Orders"
+        viewOrdersButton.addEventListener("click", () => {
+            ordersDiv.style.display = "block";
+            loadOrders();
+        });
+
+        // Функция для загрузки заказов
+        async function loadOrders() {
+            try {
+                const response = await fetch('http://localhost:8000/api/orders'); // Убедитесь, что этот адрес соответствует вашему API
+                const orders = await response.json();
+                const ordersList = document.getElementById("ordersList");
+
+                // Очистка списка перед добавлением новых заказов
+                ordersList.innerHTML = '';
+
+                orders.forEach(order => {
+                    const row = document.createElement("tr");
+                    row.innerHTML = `
+                        <td>${order.id}</td>
+                        <td>${order.name}</td>
+                        <td>${order.email}</td>
+                        <td>${order.phone}</td>
+                        <td>${order.status}</td>
+                        <td>${order.created_at}</td>
+                    `;
+                    ordersList.appendChild(row);
+                });
+            } catch (error) {
+                console.error('Ошибка при загрузке заказов:', error);
+            }
+        }
+    </script>
+</body>
+</html>
